@@ -1,5 +1,5 @@
 #bot.py url
-boturl = "https://raw.githubusercontent.com/Kameil/autocatch3chats-termux/main/bot.py"
+boturl = "https://raw.githubusercontent.com/Kameil/Autocatch-Pk2/main/bot.py"
 
 
 import requests, subprocess, os
