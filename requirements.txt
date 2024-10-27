@@ -2,4 +2,3 @@ requests
 discord
 discord.py-self==1.8.1
 Unidecode
-termcolor
