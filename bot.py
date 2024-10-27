@@ -10,7 +10,7 @@ Arquivos = {
     'main.py': 'https://raw.githubusercontent.com/Kameil/Autocatch-Pk2/main/main.py', 'bot.py': 'https://raw.githubusercontent.com/Kameil/Autocatch-Pk2/main/bot.py', 'data/pokemon': 'https://raw.githubusercontent.com/Kameil/Autocatch-Pk2/main/data/pokemon', 'data/legendary': 'https://raw.githubusercontent.com/Kameil/Autocatch-Pk2/main/data/legendary', 'data/mythical': 'https://raw.githubusercontent.com/Kameil/Autocatch-Pk2/main/data/mythical'
     }
 
-version = '2.8 codigo otmizado'
+version = '3.0'
 headers = {
     'user-agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Mobile Safari/537.36'
 }
@@ -261,7 +261,7 @@ async def stop(ctx):
 def Alerts():
     time.sleep(1)
     print(colored(f'\nPokétwo Autocacther.\n\nsò mitada violenta.', 'black', 'on_light_cyan')) 
-    print(colored(f'Versao: {version} || TERMUX', 'black', 'on_white')) 
+    print(colored(f'Versao: {version}', 'black', 'on_white')) 
     print(colored(f'o prefix do autocatch é "{prefix}".\n\nuse {prefix}ajuda para ver a lista de comandos.', 'yellow')) 
     
 
