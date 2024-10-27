@@ -1,6 +1,5 @@
 import discord, time, re, asyncio, random, requests, sys, os
 from discord.ext import commands
-from termcolor import colored
 from unidecode import unidecode
 from threading import Thread
 
@@ -95,7 +94,7 @@ paused = False
 
 @client.event
 async def on_ready():
-    print(colored(f'Autocatch em execuçao em : {client.user.name}', 'black', 'on_white'))
+    print((f'Autocatch em execuçao em : {client.user.name}', 'black', 'on_white'))
     try:
         channel = client.get_channel(int(catch_ids[0]))
         if channel:
@@ -103,9 +102,9 @@ async def on_ready():
             pro = ["autocatch online.", "ac online", "ac on", "autocatch on"]
             await channel.send(random.choice(pro))
         else:
-            print(colored(f"Nao foi possivel obter o canal: {catch_id}!", "red"))
+            print((f"Nao foi possivel obter o canal: {catch_id}!", "red"))
     except Exception as e:
-        print(colored(f"Ocorreu um erro: {e}", "red"))
+        print((f"Ocorreu um erro: {e}", "red"))
 
 
 def remover_emojis(texto): 
@@ -260,9 +259,9 @@ async def stop(ctx):
 
 def Alerts():
     time.sleep(1)
-    print(colored(f'\nPokétwo Autocacther.\n\nsò mitada violenta.', 'black', 'on_light_cyan')) 
-    print(colored(f'Versao: {version}', 'black', 'on_white')) 
-    print(colored(f'o prefix do autocatch é "{prefix}".\n\nuse {prefix}ajuda para ver a lista de comandos.', 'yellow')) 
+    print((f'\nPokétwo Autocacther.\n\nsò mitada violenta.', 'black', 'on_light_cyan')) 
+    print((f'Versao: {version}', 'black', 'on_white')) 
+    print((f'o prefix do autocatch é "{prefix}".\n\nuse {prefix}ajuda para ver a lista de comandos.', 'yellow')) 
     
 
 def ProcurarAtualizaçoes():
@@ -284,7 +283,7 @@ try:
     client.run(f"{user_token}")
 except discord.HTTPException as e:
     if e.status == 429:
-        print(colored('Discord Recusou a Conexao com o Codigo De status: 429 too many requests.\n', 'red'), str(e))
+        print(('Discord Recusou a Conexao com o Codigo De status: 429 too many requests.\n', 'red'), str(e))
         """
         FlasK.terminate()
         """
