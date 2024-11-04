@@ -3,16 +3,14 @@ from discord.ext import commands
 from unidecode import unidecode
 from threading import Thread
 
-sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
+
+
+sys.path.insert(0, os.path.abspath(os.path.dirname(__file__))) # isso ai e pra tentar resolver os b.o
 
 Arquivos = {
     'main.py': 'https://raw.githubusercontent.com/Kameil/Autocatch-Pk2/main/main.py', 'bot.py': 'https://raw.githubusercontent.com/Kameil/Autocatch-Pk2/main/bot.py', 'data/pokemon': 'https://raw.githubusercontent.com/Kameil/Autocatch-Pk2/main/data/pokemon', 'data/legendary': 'https://raw.githubusercontent.com/Kameil/Autocatch-Pk2/main/data/legendary', 'data/mythical': 'https://raw.githubusercontent.com/Kameil/Autocatch-Pk2/main/data/mythical'
     }
 
-version = '3.0'
-headers = {
-    'user-agent': 'Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0.0.0 Mobile Safari/537.36'
-}
 
 # bota os CATCH ID AI TA LIGADO PQ OREA SECA E DESENROLADO
 
@@ -33,9 +31,11 @@ def CarregarPokemons():
     global pokemon_list
     print('Carregando lista dos Pokemons..')
     try:
+        # vai ate a url dos pikomon e ver os pokemon q ta la ta ligado
         url = Arquivos['data/pokemon']
         pokemons = requests.get(url)
         if pokemons.status_code == 200:
+            # os.path.join(os.path.dirname(__file__), "data/pokemon") e pra ser o patch onde o data/pokemon esta
             with open(os.path.join(os.path.dirname(__file__), "data/pokemon"), 'w', encoding='utf8') as PokemonList:
                 PokemonList.write(pokemons.text)
                 print('lista dos pokemons atualizada.')
@@ -55,7 +55,7 @@ def decidirtimesleep():
     return 0
 
 mitico = os.path.join(os.path.dirname(__file__), "data/mythical")
-tolevel = os.path.join(os.path.dirname(__file__), "data/level")
+tolevel = os.path.join(os.path.dirname(__file__), "data/level")       # os path ai de cria
 legend = os.path.join(os.path.dirname(__file__), "data/legendary")
 
 with open(legend, 'r') as file:
@@ -65,6 +65,8 @@ with open(mitico, 'r') as file:
 with open(tolevel, 'r') as file:
     to_level = file.readline()
 
+# 3 kilo de variavel inutil para remover talvez em outra versao
+
 num_pokemon = 0
 shiny = 0
 legendary = 0
@@ -73,7 +75,13 @@ captcha_content = None
 captcha = False
 poketwo = 716390085896962058
 Mpoketwo = "<@" + str(poketwo) + ">"
+
+
+# CLIENT TA AQUIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII
 client = commands.Bot(command_prefix=[f"{prefix} ", f"{prefix}"], help_command=None)
+
+
+
 def solve(message):
     hint = []
     for i in range(15, len(message) - 1):
@@ -104,32 +112,12 @@ async def on_ready():
         else:
             print((f"Nao foi possivel obter o canal: {catch_id}!", "red"))
     except Exception as e:
-        print((f"Ocorreu um erro: {e}", "red"))
-
-
-def remover_emojis(texto): 
-     texto_sem_emojis = texto.replace('♀️', '').replace('♂️', '') 
-     return texto_sem_emojis 
-  
-
-Utpm = 0 
-def Htime() -> int:
-    global Utpm
-    if Utpm < 5:
-        Utpm += 1
-        return Utpm
-    else:
-        Utpm = 0
-        return 0
-
-def remover_acentos(palavra):
-    return unidecode(palavra)
-  
-  
-def limpar_texto(texto): 
-    texto_sem_emojis = remover_emojis(texto) 
-    texto_sem_acentos = remover_acentos(texto_sem_emojis) 
-    return texto_sem_acentos
+        print((f"Ocorreu um erro: {e}", "red")) 
+    
+def limpar_texto(texto: str): 
+    texto_sem_emojis = texto.replace('♀️', '').replace('♂️', '') 
+    texto_limpo = unidecode(texto_sem_emojis)
+    return texto_limpo
 
 @client.event
 async def on_message(message : discord.Message):
@@ -141,7 +129,7 @@ async def on_message(message : discord.Message):
                     embed_title = message.embeds[0].title
                     if 'wild pokémon has appeared!' in embed_title:
                         async with message.channel.typing():
-                            await asyncio.sleep(Htime())
+                            await asyncio.sleep(random.randint(1, 5))
                             await message.channel.send(f'{Mpoketwo} h')
                 else:
                     content = message.content
@@ -156,36 +144,14 @@ async def on_message(message : discord.Message):
                                     await asyncio.sleep(timesleep)
                                     await message.channel.send(f'{Mpoketwo} c {pokemon_name}')
                     elif 'Congratulations' in content:
-                        global shiny
-                        global legendary
                         global num_pokemon
-                        global mythical
                         num_pokemon += 1
                         split = content.split(' ')
                         pokemon = split[7].replace('!', '')
                         pokemon = pokemon.split("<")[0]
-                        if 'seem unusual...' in content:
-                            shiny += 1
-                            print(f'Shiny Pokémon caught! Pokémon: {pokemon}')
-                            print(f'Shiny: {shiny} | Legendary: {legendary} | Mythical: {mythical}')
-                            if not paused:
-                                await Infolatest(message)
-                        elif re.findall('^' + pokemon + '$', legendary_list, re.MULTILINE):
-                            legendary += 1
-                            print(f'Legendary Pokémon caught! Pokémon: {pokemon}')
-                            print(f'Shiny: {shiny} | Legendary: {legendary} | Mythical: {mythical}')
-                            if not paused:
-                                await Infolatest(message)
-                        elif re.findall('^' + pokemon + '$', mythical_list, re.MULTILINE):
-                            mythical += 1
-                            print(f'Mythical Pokémon caught! Pokémon: {pokemon}')
-                            print(f'Shiny: {shiny} | Legendary: {legendary} | Mythical: {mythical}')
-                            if not paused:
-                                await Infolatest(message)
-                        else:
-                            print(f'Numero de Pokemons Pegos/Ultimo Pego: {num_pokemon} :{pokemon}')
-                            if random.randint(1, 10) == 10 and not paused:
-                                await Infolatest(message)
+                        print(f'Numero de Pokemons Pegos/Ultimo Pego: {num_pokemon} :{pokemon}')
+                        if random.randint(1, 10) == 10 and not paused:
+                            await Infolatest(message)
                     elif 'human' in content:
                         paused, captcha = True, True
                         captcha_content = message.content
@@ -255,13 +221,12 @@ async def stop(ctx):
       
 
 
-      
+version = '3.1'      
 
 def Alerts():
     time.sleep(1)
-    print((f'\nPokétwo Autocacther.\n\nsò mitada violenta.', 'black', 'on_light_cyan')) 
-    print((f'Versao: {version}', 'black', 'on_white')) 
-    print((f'o prefix do autocatch é "{prefix}".\n\nuse {prefix}ajuda para ver a lista de comandos.', 'yellow')) 
+    print(f"Poketwo Autocatcher V{version}") 
+
     
 
 def ProcurarAtualizaçoes():
